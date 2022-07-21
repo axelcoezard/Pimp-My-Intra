@@ -1,0 +1,31 @@
+{
+	"manifest_version": 3,
+
+	"name": "Pimp My Intra",
+	"description": "Ameliore votre experience sur l'intra 42!",
+	"version": "1.0",
+
+	"background": {
+		"service_worker": "srcs/background.js"
+	},
+	"content_scripts": [
+		{
+			"matches": ["https://*.intra.42.fr/*"],
+			"js": ["srcs/foreground.js"]
+		}
+	],
+
+	"host_permissions": ["https://*.intra.42.fr/*"],
+	"permissions": ["storage", "activeTab", "scripting", "tabs"],
+
+	"action": {
+		"default_title": "Pimp My intra",
+		"default_popup": "srcs/index.html",
+		"default_icon": {
+			"16": "/public/get_started16.png",
+			"32": "/public/get_started32.png",
+			"48": "/public/get_started48.png",
+			"128": "/public/get_started128.png"
+		}
+	}
+}
