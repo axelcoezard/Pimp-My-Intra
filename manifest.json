@@ -4,10 +4,6 @@
 	"name": "Pimp My Intra",
 	"description": "Ameliore votre experience sur l'intra 42!",
 	"version": "1.0",
-
-	"background": {
-		"service_worker": "srcs/background.js"
-	},
 	"content_scripts": [
 		{
 			"id": "interceptor",
