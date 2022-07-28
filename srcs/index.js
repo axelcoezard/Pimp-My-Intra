@@ -1,6 +1,6 @@
-(async function () {
+(() => {
 
-	chrome.tabs.query({currentWindow: true, active: true}, async (tabs) => {
+	chrome.tabs.query({currentWindow: true, active: true}, tabs => {
 		// On recupere la tab courante
 		const tab = tabs[0];
 		// On affiche si on est sur lintra ou non

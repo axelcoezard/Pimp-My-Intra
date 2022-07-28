@@ -1,0 +1,7 @@
+"content_scripts": [
+	{
+		"matches": ["https://*.intra.42.fr/*"],
+		"js": ["srcs/foreground.js"],
+		"run_at": "document_start"
+	}
+],

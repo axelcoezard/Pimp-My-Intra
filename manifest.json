@@ -10,13 +10,24 @@
 	},
 	"content_scripts": [
 		{
+			"id": "interceptor",
 			"matches": ["https://*.intra.42.fr/*"],
-			"js": ["srcs/foreground.js"]
+			"js": ["srcs/interceptor.js"],
+			"run_at": "document_start",
+			"all_frames": true,
+			"match_origin_as_fallback": true
+		},
+		{
+			"id": "logtime",
+			"matches": ["https://*.intra.42.fr/*"],
+			"js": ["srcs/logtime.js"],
+			"run_at": "document_end",
+			"all_frames": true,
+			"match_origin_as_fallback": true
 		}
 	],
-
 	"host_permissions": ["https://*.intra.42.fr/*"],
-	"permissions": ["storage", "activeTab", "scripting", "tabs"],
+	"permissions": ["storage", "activeTab", "scripting", "tabs", "declarativeContent"],
 
 	"action": {
 		"default_title": "Pimp My intra",

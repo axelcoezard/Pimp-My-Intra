@@ -1,4 +1,3 @@
-import { resolveSoa } from "dns";
 import { OAuth2 } from "oauth";
 import dotenv from "dotenv"
 import readline from "readline"
