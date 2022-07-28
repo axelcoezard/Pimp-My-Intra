@@ -24,25 +24,23 @@ const rl = readline.createInterface({
 function getInterval() {
 	let date = new Date(Date.now())
 	let year = date.getFullYear()
-	const isEndMonth = date.getDay() > 26 && date.getDate() < 1
-	let lastMonth = date.getMonth() - !isEndMonth
+	const isEndMonth = date.getDay() > 26
+	let lastMonth = date.getMonth() - isEndMonth
 	let start = new Date(lastMonth <= 0 ? year - 1 : year, lastMonth % 12, 27)
-	let nextMonth = date.getMonth() + isEndMonth
+	let nextMonth = date.getMonth() + !isEndMonth
 	let end = new Date(nextMonth > 12 ? year + 1 : year, nextMonth % 12, 26)
 	return {start, end}
 }
 
-rl.question("Enter un login/id: ", (login) => {
-	rl.close()
-
+function getHours(login, callback) {
 	let interval = getInterval()
 	let params = new URLSearchParams()
 	params.set("begin_at", interval.start.toISOString())
 	params.set("end_at", interval.end.toISOString())
-	let url = `https://api.intra.42.fr/v2/users/${login}/locations_stats?${params.toString()}`
+	let url1 = `https://api.intra.42.fr/v2/users/${login}/locations_stats?${params.toString()}`
 	oauth2.getOAuthAccessToken('',
 		{'grant_type': 'client_credentials'}, (e, access_token, refresh_token, results) => {
-		oauth2.get(url, access_token, (err, res) => {
+		oauth2.get(url1, access_token, (err, res) => {
 			try {
 				let ret = JSON.parse(res)
 				let _hours = 0;
@@ -56,12 +54,17 @@ rl.question("Enter un login/id: ", (login) => {
 				})
 				_minutes += _seconds / 60; _seconds %= 60;
 				_hours += _minutes / 60; _minutes %= 60;
-				console.log(`${parseInt(_hours)}h${parseInt(_minutes)}`)
+				callback(_hours, _minutes, _seconds)
 			} catch (e) {
 				console.error(`The user ${login} doesn't exist.`)
 			}
 		})
-	});
+		})
+}
+
+rl.question("Enter un login/id: ", (login) => {
+	rl.close()
+	getHours(login, (_h, _m, _s) => console.log(`${parseInt(_h)}h${parseInt(_m)}m`))
 })
 
 
